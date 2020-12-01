@@ -5,29 +5,14 @@ import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <Header />
-        <Counter />
-      </div>
-    );
-  }
-}
 
-class Header extends Component {
-  render() {
-    return (
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <h1 className="App-title">Welcome to React</h1>
-      </header>
-    );
+  constructor(){
+    super()
+    this.state = {
+      count: 0
+    }
   }
-}
 
-class Counter extends Component {
-  state = { count: 0 };
 
   increment = () => {
     this.setState({ count: this.state.count + 1 });
@@ -37,19 +22,46 @@ class Counter extends Component {
     this.setState({ count: this.state.count - 1 });
   };
 
+
+
+  render() {
+    return (
+      <div className="App">
+        <Header count={this.state.count} />
+        <Counter count={this.state.count} increment={this.increment} decrement={this.decrement} />
+      </div>
+    );
+  }
+}
+
+class Header extends Component {
+  
   renderDescription = () => {
-    const remainder = this.state.count % 5;
+    const remainder = this.props.count % 5;
     const upToNext = 5 - remainder;
-    return `The current count is less than ${this.state.count + upToNext}`;
+    return `The current count is less than ${this.props.count + upToNext}`;
   };
 
   render() {
     return (
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <h1 className="App-title">Welcome to React</h1>
+        {this.renderDescription()}
+      </header>
+    );
+  }
+}
+
+class Counter extends Component {
+
+
+  render() {
+    return (
       <div className="Counter">
-        <h1>{this.state.count}</h1>
-        <button onClick={this.decrement}> - </button>
-        <button onClick={this.increment}> + </button>
-        <h3>{this.renderDescription()}</h3>
+        <h1>{this.props.count}</h1>
+        <button onClick={() => this.props.increment()}> + </button>
+        <button onClick={() => this.props.decrement()}> - </button>
       </div>
     );
   }
